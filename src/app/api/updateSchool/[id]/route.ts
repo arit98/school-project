@@ -1,13 +1,11 @@
 import { connectDB } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     const body = await req.json();
     const db = await connectDB();
+    const params = await context.params;
 
     await db.execute(
       `UPDATE schools 
